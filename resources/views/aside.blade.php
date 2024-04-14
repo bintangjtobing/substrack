@@ -60,6 +60,12 @@
                         <span class="menu-text">Financial Reports</span>
                     </a>
                 </li>
+                <li>
+                    <a href="/reset-data" class="text-danger">
+                        <span data-feather="power" class="nav-icon"></span>
+                        <span class="menu-text">Reset Data</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

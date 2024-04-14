@@ -97,7 +97,7 @@
     border-radius: 22px;
 
     &.btn-shadow-primary {
-      box-shadow: 0 10px 15px rgba(#5f63f2, 0.1);
+      box-shadow: 0 10px 15px rgba(#052349, 0.1);
     }
 
     svg {
@@ -757,7 +757,7 @@
     }
   }
 
-  
+
 }
 
 // Mail Form
@@ -1430,7 +1430,7 @@
 
 .mailbox-list__single:hover {
   .mail-content__top .mail-title .badge {
-    background-color: rgba(#5f63f2, 0.1);
+    background-color: rgba(#052349, 0.1);
     @extend .color-primary;
   }
 }

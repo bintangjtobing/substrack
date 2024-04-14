@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('sales_type');
-            $table->integer('subscription_model');
+            $table->string('subscription_model');
             $table->decimal('price', 10, 2);
             $table->decimal('cost', 10, 2); // Tambahkan kolom cost di sini
             $table->integer('qty');

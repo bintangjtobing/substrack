@@ -3,11 +3,10 @@
     <nav class="navbar navbar-light">
         <div class="navbar-left">
             <a href="/" class="sidebar-toggle">
-                <img class="svg" src="{{ asset('img/svg/bars.svg') }}" alt="Logo MileageMaster"></a>
-            <a class="navbar-brand" href="/"><img class="dark" style="max-width: 175px;"
-                    src="https://www.pondoklensa.com/app/Web/Assets/apps/images/logo.png" alt="svg"><img
-                    class="light" style="max-width: 175px;"
-                    src="https://www.pondoklensa.com/app/Web/Assets/apps/images/logo.png" alt="Logo MileageMaster"></a>
+                <img class="svg" src="{{ asset('img/svg/bars.svg') }}" alt="Logo Substrack"></a>
+            <a class="navbar-brand" href="/"><img class="dark" style="max-height: 100px;"
+                    src="{!! asset('img/4.png') !!}" alt="png"><img class="light" style="max-height: 100px;"
+                    src="{!! asset('img/4.png') !!}" alt="Logo Substrack"></a>
             <div class="top-menu">
 
                 <div class="strikingDash-top-menu position-relative">
@@ -40,14 +39,12 @@
                 <!-- ends: .nav-flag-select -->
                 <li class="nav-author">
                     <div class="dropdown-custom">
-                        <a href="javascript:;" class="nav-item-toggle"><img
-                                src="https://www.pondoklensa.com/app/Web/Assets/apps/images/touch/og-image-200x200.png"
-                                alt="" class="rounded-circle"></a>
+                        <a href="javascript:;" class="nav-item-toggle"><img src="{!! asset('img/2.png') !!}" alt=""
+                                class="rounded-circle"></a>
                         <div class="dropdown-wrapper">
                             <div class="nav-author__info">
                                 <div class="author-img">
-                                    <img src="https://www.pondoklensa.com/app/Web/Assets/apps/images/touch/og-image-200x200.png"
-                                        alt="" class="rounded-circle">
+                                    <img src="{!! asset('img/2.png') !!}" alt="" class="rounded-circle">
                                 </div>
                                 <div>
                                     <h6>Bintang Tobing</h6>

@@ -3,15 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\RoomCustomerTransaction;
 
 class RoomController extends Controller
 {
     public function index()
     {
-        $rooms = Room::all();
-        return view('rooms.index', compact('rooms'));
+        $rooms = Room::with('customers')->get();
+        $transactions = Transaction::where('subscription_model','Purchase')->get();
+        return view('rooms.index', compact('rooms','transactions'));
     }
+
+    public function detail($roomId)
+    {
+        // Temukan room berdasarkan ID yang dikirimkan dari view blade
+        $room = Room::findOrFail($roomId);
+
+        // Ambil informasi detail tentang room, transaction, dan customer yang terkait dari tabel pivot
+        $roomCustomerTransaction = RoomCustomerTransaction::where('room_id', $roomId)->first();
+
+        // Periksa apakah ada roomCustomerTransaction yang terkait dengan ruangan ini
+        if ($roomCustomerTransaction) {
+            $transaction = $roomCustomerTransaction->transaction;
+            $customer = $roomCustomerTransaction->customer;
+
+            // Periksa apakah ada transaksi dan pelanggan yang terkait
+            if ($transaction && $customer) {
+                return view('rooms.detail', compact('room', 'transaction', 'customer'));
+            } else {
+                // Tambahkan penanganan jika tidak ada transaksi atau pelanggan yang terkait dengan roomCustomerTransaction
+                return redirect()->back()->with('error', 'No transaction or customer found for this room');
+            }
+        } else {
+            // Tambahkan penanganan jika tidak ada roomCustomerTransaction yang terkait dengan ruangan
+            return redirect()->back()->with('error', 'No RoomCustomerTransaction found for this room');
+        }
+    }
+
 
     public function create()
     {

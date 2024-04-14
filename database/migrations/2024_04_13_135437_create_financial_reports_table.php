@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('financial_reports', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('transaction_id')->unique();
+            $table->unsignedBigInteger('transaction_id')->nullable();
+            $table->string('transaction_date');
+            $table->string('description');
             $table->decimal('total_revenue', 10, 2);
             $table->decimal('total_cost', 10, 2);
-            $table->decimal('net_income', 10, 2);
+            $table->decimal('balance', 10, 2);
             $table->timestamps();
 
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');

@@ -9,7 +9,7 @@ class FinancialReport extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['transaction_id', 'total_revenue', 'total_cost', 'net_income'];
+    protected $fillable = ['transaction_id','transaction_date','description', 'total_revenue', 'total_cost', 'balance'];
 
     public function transaction()
     {

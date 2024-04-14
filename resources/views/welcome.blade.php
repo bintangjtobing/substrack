@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title') - CashGuardian &copy;2024 - Personal Use</title>
+    <title>@yield('title') - Substrack &copy;2024 - Personal Use</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -29,16 +29,15 @@
     <link rel="stylesheet" href="{{ asset('style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="
-        https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js
-        "></script>
+                            https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js
+                            "></script>
     <link href="
     https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css
     " rel="stylesheet">
 
     <!-- endinject -->
 
-    <link rel="icon" type="image/png" sizes="16x16"
-        href="https://www.pondoklensa.com/app/Web/Assets/apps/images/touch/og-image-200x200.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{!! asset('img/2.png') !!}">
 </head>
 
 <body class="layout-light side-menu overlayScroll">

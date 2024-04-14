@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('transaction_id');
             $table->foreign('transaction_id')->references('id')->on('transactions');
+            $table->string('email')->unique()->nullable();
+            $table->string('password')->nullable();
             $table->integer('max_users');
             $table->integer('available_users');
             $table->timestamps();
