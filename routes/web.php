@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FinancialReportController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoomController;
@@ -23,9 +24,7 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-Route::get('/', function () {
-    return view('home.index');
-});
+Route::resource('/', DashboardController::class);
 
 Route::resource('customers', CustomerController::class);
 Route::resource('suppliers', SupplierController::class);
