@@ -62,7 +62,7 @@
                 </li>
                 <li>
                     <a href="/reset-data" class="text-danger"
-                        onclick="return confirm('Are you sure you want to delete this entry?')">
+                        onclick="return confirm('Are you sure you want to reset all data except products, customer, and supplier?')">
                         <span data-feather="power" class="nav-icon"></span>
                         <span class="menu-text">Reset Data</span>
                     </a>
