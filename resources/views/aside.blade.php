@@ -61,7 +61,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/reset-data" class="text-danger">
+                    <a href="/reset-data" class="text-danger"
+                        onclick="return confirm('Are you sure you want to delete this entry?')">
                         <span data-feather="power" class="nav-icon"></span>
                         <span class="menu-text">Reset Data</span>
                     </a>

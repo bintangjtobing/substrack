@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransactionController;
+use App\Models\RoomCustomerTransaction;
 use Illuminate\Support\Facades\Route;
 use App\Models\Room;
 use App\Models\Transaction;
@@ -36,12 +37,9 @@ Route::resource('financial-reports', FinancialReportController::class);
 Route::get('/reset-data', function(){
     DB::statement('SET FOREIGN_KEY_CHECKS=0');
     Room::truncate();
-
-    // Menghapus semua data transactions
     Transaction::truncate();
-
-    // Menghapus semua data financial reports
     FinancialReport::truncate();
+    RoomCustomerTransaction::truncate();
     DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
     // Mengembalikan pesan sukses

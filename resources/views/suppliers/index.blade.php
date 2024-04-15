@@ -38,6 +38,56 @@
             </div>
         </div>
     </div>
+    <!-- Create Transaction Modal -->
+    <div class="modal fade new-member" id="createTransactionModal" tabindex="-1" role="dialog"
+        aria-labelledby="createTransactionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content radius-xl">
+                <form action="{{ route('transactions.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createTransactionModalLabel">Add New Transaction</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="transaction_date">Transaction Date</label>
+                            <input type="date" autofocus class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                id="transaction_date" name="transaction_date" value="{{ date('Y-m-d') }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="supplier_id">Supplier</label>
+                            <select class="form-control ih-medium ip-gray radius-xs b-light px-15" id="supplier_id"
+                                name="supplier_id" required>
+                                <option value="" selected>Pilih Supplier</option>
+                                @foreach ($suppliers as $supplier)
+                                    <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                id="price" name="price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="qty">Quantity</label>
+                            <input type="number" class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                id="qty" name="qty" value="1" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"
+                            class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light"
+                            data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-default btn-squared text-capitalize">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     @foreach ($suppliers as $supplier)
         <!-- Edit Supplier Modal -->
@@ -96,6 +146,11 @@
                         </span>
                     </div>
                     <div class="users-list__button mt-xl-0 mt-15">
+                        <button class="btn btn-primary btn-default btn-rounded text-capitalize px-20 mb-10 global-shadow"
+                            data-toggle="modal" data-target="#createTransactionModal"
+                            data-supplier-id="{{ $supplier->id }}"><i class="la la-shopping-bag"></i>
+                            Order
+                        </button>
                         <div class="card-body pr-0">
                             <div class="atbd-button-list d-flex flex-wrap">
                                 <button class="btn btn-icon btn-circle btn-outline-warning" data-toggle="modal"
@@ -119,4 +174,17 @@
 
         </div>
     @endforeach
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#createTransactionModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Tombol yang mengaktifkan modal
+                var supplierId = button.data('supplier-id');
+                var modal = $(this);
+                modal.find('#supplier_id').val(supplierId);
+            });
+        });
+    </script>
+
 @endsection
