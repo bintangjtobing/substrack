@@ -1,11 +1,11 @@
 @extends('welcome')
 
-@section('title', 'Customers')
+@section('title', 'List Users')
 
 @section('addNewData')
     <div class="action-btn">
         <a href="#" class="btn btn-sm btn-primary btn-add" data-toggle="modal" data-target="#createCustomerModal">
-            <i class="la la-plus"></i> Add New @yield('title')</a>
+            <i class="la la-plus"></i> Add New User</a>
     </div>
     <!-- Create Customer Modal -->
     <div class="modal fade new-member" id="createCustomerModal" tabindex="-1" role="dialog"
@@ -113,101 +113,54 @@
         {!! showSuccessToast(session('success')) !!}
         {{ Session::forget('success') }}
     @endif
-    <div class="col-lg-12 mb-25">
-        <div class="social-overview-wrap">
-            <div class="card border-0">
-                <div class="card-body p-0">
-                    <div class="table4 table5 p-25 bg-white">
-                        <div class="table-responsive">
-                            <table class="table mb-0">
-                                <thead>
-                                    <tr class="userDatatable-header">
-                                        <th>
-                                            <div class="userDatatable-title">Name</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Address</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Email</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">WhatsApp No.</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Action</div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($customers as $customer)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <div class="userDatatable-inline-title">
-                                                        <a href="#" class="text-dark fw-500">
-                                                            <h6>{{ $customer->name }}</h6>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    {{ $customer->address }}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="userDatatable-content" style="text-transform: none;">
-                                                    {{ $customer->email }}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    <a
-                                                        href="http://wa.me/62{{ $customer->phone_number }}">{{ $customer->phone_number }}</a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-                                                    <li>
-                                                        <button
-                                                            style="height: 40px;border-radius: 50%;color: #6bd2eb !important;"
-                                                            type="button" class="btn btn-link edit" data-toggle="modal"
-                                                            data-target="#editCustomerModal{{ $customer->id }}">
-                                                            <span data-feather="edit"></span>
-                                                        </button>
-                                                    </li>
-
-                                                    <li>
-                                                        <form action="{{ route('customers.destroy', $customer->id) }}"
-                                                            method="POST" class="remove">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button
-                                                                style="height: 40px;border-radius: 50%;color: #F59191 !important;"
-                                                                type="submit" class="btn btn-link remove"
-                                                                onclick="return confirm('Are you sure you want to delete this entry?')">
-                                                                <span data-feather="trash-2"></span>
-                                                            </button>
-                                                        </form>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center">
-                                                <div class="userDatatable-content">No data available in the database</div>
-                                            </td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+    @foreach ($customers as $customer)
+        <div class="col-md-6 col-sm-12 mb-25">
+            <div class="media  py-30  pl-30 pr-20 bg-white radius-xl users-list ">
+                <img class=" mr-20 rounded-circle wh-80 bg-opacity-primary  "
+                    src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
+                    alt="{{ $customer->name }} image profile">
+                <div class="media-body d-xl-flex users-list-body">
+                    <div class="flex-1 pr-xl-30 users-list-body__title">
+                        <h6 class="mt-0 fw-500">{{ $customer->name }} </h6>
+                        <span>Joined since {{ $customer->created_at->diffForHumans() }}<br>at
+                            {{ $customer->created_at->format('jS F Y') }}
+                        </span>
+                        <div class="users-list-body__bottom">
+                            <span class="ml-0"><span class="fw-600">
+                                    Rp. {{ number_format($customerEarnings[$customer->id], 2) }}
+                                </span> earned</span>
                         </div>
                     </div>
-
+                    <div class="users-list__button mt-xl-0 mt-15">
+                        <a class="btn btn-primary btn-default btn-rounded text-capitalize px-20 mb-10 global-shadow"
+                            href="mailto:{{ $customer->email }}"><i class="la la-envelope-open-text"></i>
+                            Email
+                        </a>
+                        <a class="btn btn-success btn-default btn-rounded text-capitalize px-20 mb-10 global-shadow"
+                            href="https://wa.me/62{{ $customer->phone_number }}">
+                            <i class="la la-whatsapp"></i>message</button>
+                        </a>
+                        <div class="card-body pr-0">
+                            <div class="atbd-button-list d-flex flex-wrap">
+                                <button class="btn btn-icon btn-circle btn-outline-warning" data-toggle="modal"
+                                    data-target="#editCustomerModal{{ $customer->id }}">
+                                    <span data-feather="edit"></span>
+                                </button>
+                                <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
+                                    class="remove">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-icon btn-circle btn-outline-danger"
+                                        onclick="return confirm('Are you sure you want to delete this entry?')">
+                                        <span data-feather="trash-2"></span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
-    </div>
+    @endforeach
 @endsection

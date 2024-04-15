@@ -83,83 +83,40 @@
         {!! showSuccessToast(session('success')) !!}
         {{ Session::forget('success') }}
     @endif
-    <div class="col-lg-12 mb-25">
-        <div class="social-overview-wrap">
-            <div class="card border-0">
-                <div class="card-body p-0">
-                    <div class="table4 table5 p-25 bg-white">
-                        <div class="table-responsive">
-                            <table class="table mb-0">
-                                <thead>
-                                    <tr class="userDatatable-header">
-                                        <th>
-                                            <div class="userDatatable-title">Name</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Created At</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Action</div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($suppliers as $supplier)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <div class="userDatatable-inline-title">
-                                                        <a href="#" class="text-dark fw-500">
-                                                            <h6>{{ $supplier->name }}</h6>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    {{ $supplier->created_at->format('Y-m-d') }}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-                                                    <li>
-                                                        <button
-                                                            style="height: 40px;border-radius: 50%;color: #6bd2eb !important;"
-                                                            type="button" class="btn btn-link edit" data-toggle="modal"
-                                                            data-target="#editSupplierModal{{ $supplier->id }}">
-                                                            <span data-feather="edit"></span>
-                                                        </button>
-                                                    </li>
-
-                                                    <li>
-                                                        <form action="{{ route('suppliers.destroy', $supplier->id) }}"
-                                                            method="POST" class="remove">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button
-                                                                style="height: 40px;border-radius: 50%;color: #F59191 !important;"
-                                                                type="submit" class="btn btn-link remove"
-                                                                onclick="return confirm('Are you sure you want to delete this entry?')">
-                                                                <span data-feather="trash-2"></span>
-                                                            </button>
-                                                        </form>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="3" class="text-center">
-                                                <div class="userDatatable-content">No data available in the database</div>
-                                            </td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+    @foreach ($suppliers as $supplier)
+        <div class="col-md-6 col-sm-12 mb-25">
+            <div class="media  py-30  pl-30 pr-20 bg-white radius-xl users-list ">
+                <img class=" mr-20 w-50 bg-opacity-primary  " src="{{ $supplier->image }}"
+                    alt="{{ $supplier->name }} image profile">
+                <div class="media-body d-xl-flex users-list-body">
+                    <div class="flex-1 pr-xl-30 users-list-body__title">
+                        <h6 class="mt-0 fw-500">{{ $supplier->name }} </h6>
+                        <span>Joined since {{ $supplier->created_at->diffForHumans() }}<br>at
+                            {{ $supplier->created_at->format('jS F Y') }}
+                        </span>
+                    </div>
+                    <div class="users-list__button mt-xl-0 mt-15">
+                        <div class="card-body pr-0">
+                            <div class="atbd-button-list d-flex flex-wrap">
+                                <button class="btn btn-icon btn-circle btn-outline-warning" data-toggle="modal"
+                                    data-target="#editSupplierModal{{ $supplier->id }}">
+                                    <span data-feather="edit"></span>
+                                </button>
+                                <form action="{{ route('suppliers.destroy', $supplier->id) }}" method="POST"
+                                    class="remove">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-icon btn-circle btn-outline-danger"
+                                        onclick="return confirm('Are you sure you want to delete this entry?')">
+                                        <span data-feather="trash-2"></span>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
-    </div>
+    @endforeach
 @endsection

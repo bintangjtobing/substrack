@@ -15,4 +15,8 @@ class Customer extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i',
+        'updated_at' => 'datetime:Y-m-d H:i',
+    ];
 }

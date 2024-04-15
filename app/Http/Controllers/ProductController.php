@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
@@ -10,9 +11,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::orderBy('name','asc')->paginate(10);
         $suppliers = Supplier::all();
-        return view('products.index', compact('products','suppliers'));
+        $customers = Customer::orderBy('name','asc')->get();
+        return view('products.index', compact('products','suppliers', 'customers'));
     }
 
     public function create()

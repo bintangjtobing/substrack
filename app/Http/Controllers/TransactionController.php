@@ -14,7 +14,7 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::all();
+        $transactions = Transaction::orderBy('created_at','desc')->paginate(10);
         $customers = Customer::all();
         $products = Product::all();
         $suppliers = Supplier::all();

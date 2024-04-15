@@ -187,24 +187,21 @@
                                             <div class="userDatatable-title">Kode Transaksi</div>
                                         </th>
                                         <th>
-                                            <div class="userDatatable-title">Transaction Date</div>
+                                            <div class="userDatatable-title">Tanggal</div>
                                         </th>
                                         <th>
                                             <div class="userDatatable-title">Customer</div>
                                         </th>
                                         <th>
-                                            <div class="userDatatable-title">Type</div>
-                                        </th>
-                                        <th>
                                             <div class="userDatatable-title">Product</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Harga Satuan</div>
                                         </th>
                                         <th>
                                             <div class="userDatatable-title">Quantity</div>
                                         </th>
-                                        <th>
+                                        <th style="text-align:right;">
+                                            <div class="userDatatable-title">Harga Satuan</div>
+                                        </th>
+                                        <th style="text-align:right;">
                                             <div class="userDatatable-title">Total Tagihan</div>
                                         </th>
                                         <th>
@@ -215,7 +212,7 @@
                                 <tbody>
                                     @forelse ($transactions as $transaction)
                                         <tr>
-                                            <td>
+                                            <td style="vertical-align: middle;">
                                                 <div class="d-flex">
                                                     <div class="userDatatable-inline-title">
                                                         <a href="#" class="text-dark fw-500">
@@ -224,45 +221,51 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td style="vertical-align: middle;">
                                                 <div class="d-flex">
                                                     <div class="userDatatable-content">
                                                         {{ $transaction->transaction_date ?? 'N/A' }}
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td style="vertical-align: middle;">
                                                 <div class="userDatatable-content">
                                                     {{ $transaction->customer->name ?? 'Pembelian ' . $transaction->supplier->name }}
+                                                    @if ($transaction->subscription_model == 'Sales')
+                                                        <p class="text-success">
+                                                            <span data-feather="trending-up" width="20px"></span>
+                                                            <span class="">&nbsp;Sales</span>
+                                                        </p>
+                                                    @else
+                                                        <p class="text-danger">
+                                                            <span data-feather="trending-down" width="20px"></span>
+                                                            <span class="">&nbsp;Purchase</span>
+                                                        </p>
+                                                    @endif
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    {{ $transaction->subscription_model ?? 'N/A' }}
-                                                </div>
-                                            </td>
-                                            <td>
+                                            <td style="vertical-align: middle;">
                                                 <div class="userDatatable-content">
                                                     {{ $transaction->product->name ?? 'N/A' }}
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    Rp {{ number_format($transaction->price, 0, ',', '.') }}
-                                                </div>
-                                            </td>
-                                            <td>
+                                            <td style="vertical-align: middle;">
                                                 <div class="userDatatable-content">
                                                     {{ $transaction->qty }} Months
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td style="vertical-align: middle; text-align: right;">
+                                                <div class="userDatatable-content">
+                                                    Rp {{ number_format($transaction->price, 0, ',', '.') }}
+                                                </div>
+                                            </td>
+                                            <td style="vertical-align: middle; text-align: right;">
                                                 <div class="userDatatable-content">
                                                     Rp
                                                     {{ number_format($transaction->price * $transaction->qty, 0, ',', '.') }}
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td style="vertical-align: middle;">
                                                 <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
                                                     <li>
                                                         <button
@@ -303,6 +306,41 @@
                     </div>
                 </div>
             </div>
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between mt-30">
+                <div class="pagination-info">
+                    Showing {{ $transactions->firstItem() }} to {{ $transactions->lastItem() }} of
+                    {{ $transactions->total() }} items
+                </div>
+                <nav class="atbd-page">
+                    <ul class="atbd-pagination d-flex">
+                        <li class="atbd-pagination__item">
+                            @if ($transactions->onFirstPage())
+                                <span class="disabled" aria-disabled="true" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo; Previous</span>
+                                </span>
+                            @else
+                                <a href="{{ $transactions->previousPageUrl() }}" rel="prev" aria-label="Previous">
+                                    &laquo; Previous
+                                </a>
+                            @endif
+                        </li>
+
+                        <li class="atbd-pagination__item">
+                            @if ($transactions->hasMorePages())
+                                <a href="{{ $transactions->nextPageUrl() }}" rel="next" aria-label="Next">
+                                    Next &raquo;
+                                </a>
+                            @else
+                                <span class="disabled" aria-disabled="true" aria-label="Next">
+                                    <span aria-hidden="true">Next &raquo;</span>
+                                </span>
+                            @endif
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- End Pagination -->
         </div>
     </div>
 @endsection

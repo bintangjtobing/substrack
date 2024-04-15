@@ -4,13 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Models\Transaction;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = Customer::all();
-        return view('customers.index', compact('customers'));
+        $customers = Customer::orderBy('name','asc')->get();
+        // Inisialisasi array untuk menyimpan total pendapatan per pelanggan
+        $customerEarnings = [];
+
+        // Iterasi melalui setiap pelanggan
+        foreach ($customers as $customer) {
+            // Hitung total pendapatan untuk pelanggan tertentu
+            $totalEarnings = Transaction::where('customer_id', $customer->id)->sum(DB::raw('price * qty'));
+
+            // Simpan total pendapatan dalam array dengan kunci sebagai ID pelanggan
+            $customerEarnings[$customer->id] = $totalEarnings;
+        }
+        return view('customers.index', compact('customers','customerEarnings'));
     }
 
     public function create()

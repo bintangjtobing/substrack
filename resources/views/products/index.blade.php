@@ -78,6 +78,69 @@
         </div>
     </div>
 
+    <!-- Create Transaction Modal -->
+    <div class="modal fade new-member" id="createTransactionModal" tabindex="-1" role="dialog"
+        aria-labelledby="createTransactionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content radius-xl">
+                <form action="{{ route('transactions.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createTransactionModalLabel">Add New Transaction</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="transaction_date">Transaction Date</label>
+                            <input type="date" autofocus class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                id="transaction_date" name="transaction_date" value="{{ date('Y-m-d') }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_id">Customer</label>
+                            <select class="form-control ih-medium ip-gray radius-xs b-light px-15" id="customer_id"
+                                name="customer_id">
+                                <option value="" selected>Pilih Customer</option>
+                                @foreach ($customers as $customer)
+                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product_id">Product</label>
+                            <select class="form-control ih-medium ip-gray radius-xs b-light px-15" id="product_id"
+                                name="product_id" required>
+                                <option value="" selected>Pilih Product</option>
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price</label>
+                            <input type="number" class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                id="price" name="price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="qty">Quantity</label>
+                            <input type="number" class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                id="qty" name="qty" value="1" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"
+                            class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light"
+                            data-dismiss="modal">Close</button>
+                        <button type="submit"
+                            class="btn btn-primary btn-default btn-squared text-capitalize">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     @foreach ($products as $product)
         <!-- Edit Product Modal -->
         <div class="modal fade new-member" id="editProductModal{{ $product->id }}" tabindex="-1" role="dialog"
@@ -163,131 +226,69 @@
         {!! showSuccessToast(session('success')) !!}
         {{ Session::forget('success') }}
     @endif
-    <div class="col-lg-12 mb-25">
-        <div class="social-overview-wrap">
-            <div class="card border-0">
-                <div class="card-body p-0">
-                    <div class="table4 table5 p-25 bg-white">
-                        <div class="table-responsive">
-                            <table class="table mb-0">
-                                <thead>
-                                    <tr class="userDatatable-header">
-                                        <th>
-                                            <div class="userDatatable-title">Name</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Desc</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Type</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Subscription</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Harga Jual</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Harga Beli</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Quantity</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Supplier</div>
-                                        </th>
-                                        <th>
-                                            <div class="userDatatable-title">Action</div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($products as $product)
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <div class="userDatatable-inline-title">
-                                                        <a href="#" class="text-dark fw-500">
-                                                            <h6>{{ $product->name }}</h6>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    {{ Str::limit($product->description, 30) }}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    {{ $product->sales_type }}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    {{ $product->subscription_model }}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    Rp {{ number_format($product->price, 0, ',', '.') }}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    Rp {{ number_format($product->cost, 0, ',', '.') }}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    {{ $product->qty }} Quota
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="userDatatable-content">
-                                                    {{ $product->supplier->name ?? 'N/A' }}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-                                                    <li>
-                                                        <button
-                                                            style="height: 40px;border-radius: 50%;color: #6bd2eb !important;"
-                                                            type="button" class="btn btn-link edit" data-toggle="modal"
-                                                            data-target="#editProductModal{{ $product->id }}">
-                                                            <span data-feather="edit"></span>
-                                                        </button>
-                                                    </li>
-
-                                                    <li>
-                                                        <form action="{{ route('products.destroy', $product->id) }}"
-                                                            method="POST" class="remove">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button
-                                                                style="height: 40px;border-radius: 50%;color: #F59191 !important;"
-                                                                type="submit" class="btn btn-link remove"
-                                                                onclick="return confirm('Are you sure you want to delete this entry?')">
-                                                                <span data-feather="trash-2"></span>
-                                                            </button>
-                                                        </form>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="9" class="text-center">
-                                                <div class="userDatatable-content">No data available in the database</div>
-                                            </td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+    @foreach ($products as $product)
+        <div class="cus-xl-3 col-lg-3 col-md-11 col-12 mb-30 px-10">
+            <div class="card product product--grid">
+                <div class="h-100">
+                    <div class="product-item">
+                        <div class="product-item__image">
+                            <a href="#"><img class="card-img-top img-fluid" src="{{ $product->supplier->image }}"
+                                    alt="{{ $product->name }} image cover"></a>
+                        </div>
+                        <div class="card-body px-20 pb-25 pt-20">
+                            <div class="product-item__body text-capitalize">
+                                <a href="product-details.html">
+                                    <h6 class="card-title">{{ $product->name }}</h6>
+                                    <span class="text-muted fs-12">{{ Str::limit($product->description, 120) }}</p>
+                                </a>
+                                <div class="d-flex align-items-center mb-10 mt-10 flex-wrap">
+                                    <span class="product-desc-price">Rp
+                                        {{ number_format($product->price, 0, ',', '.') }}</span>
+                                    <span class="product-price">Rp {{ number_format($product->cost, 0, ',', '.') }}</span>
+                                    <span class="product-discount">Available quotas: {{ $product->qty }}</span>
+                                </div>
+                            </div>
+                            <div class="product-item__button d-flex mt-20 flex-wrap">
+                                <button class="btn btn-primary btn-default btn-squared border-0" data-toggle="modal"
+                                    data-target="#createTransactionModal" data-product-id="{{ $product->id }}"
+                                    data-product-price="{{ $product->price }}">
+                                    <span data-feather="shopping-bag"></span>Buy Now
+                                </button>
+                                <button class="btn btn-default btn-icon btn-squared btn-outline-light" data-toggle="modal"
+                                    data-target="#editProductModal{{ $product->id }}">
+                                    <span data-feather="edit"></span>
+                                </button>
+                                <form action="{{ route('products.destroy', $product->id) }}" method="POST"
+                                    class="remove">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-icon btn-squared btn-outline-danger "
+                                        onclick="return confirm('Are you sure you want to delete this entry?')">
+                                        <span data-feather="trash-2"></span>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endforeach
+
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#createTransactionModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Tombol yang mengaktifkan modal
+                var productId = button.data('product-id'); // Ekstrak informasi dari atribut data-product-id
+                var productPrice = button.data(
+                'product-price'); // Ekstrak informasi dari atribut data-product-id
+                var modal = $(this);
+                modal.find('#product_id').val(productId);
+                modal.find('#price').val(productPrice);
+            });
+        });
+    </script>
+
 @endsection
