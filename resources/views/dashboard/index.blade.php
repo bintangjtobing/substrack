@@ -1,6 +1,119 @@
 @extends('welcome')
 @section('title', 'Dashboard')
+@section('addNewData')
+<!-- Create Transaction Modal -->
+<div class="modal fade new-member" id="createTransactionModal" tabindex="-1" role="dialog"
+aria-labelledby="createTransactionModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content radius-xl">
+        <form action="{{ route('transactions.store') }}" method="POST">
+            @csrf
+            <div class="modal-header">
+                <h5 class="modal-title" id="createTransactionModalLabel">Add New Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="transaction_date">Transaction Date</label>
+                    <input type="date" autofocus class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                        id="transaction_date" name="transaction_date" value="{{ date('Y-m-d') }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="customer_id">Customer</label>
+                    <select class="form-control ih-medium ip-gray radius-xs b-light px-15" id="customer_id"
+                        name="customer_id">
+                        <option value="" selected>Pilih Customer</option>
+                        @foreach ($customers as $customer)
+                            <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="product_id">Product</label>
+                    <select class="form-control ih-medium ip-gray radius-xs b-light px-15" id="product_id"
+                        name="product_id" required>
+                        <option value="" selected>Pilih Product</option>
+                        @foreach ($products as $product)
+                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                        id="price" name="price" required>
+                </div>
+                <div class="form-group">
+                    <label for="qty">Quantity</label>
+                    <input type="number" class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                        id="qty" name="qty" value="1" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                    class="btn btn-light btn-default btn-squared fw-400 text-capitalize b-light color-light"
+                    data-dismiss="modal">Close</button>
+                <button type="submit"
+                    class="btn btn-primary btn-default btn-squared text-capitalize">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+@endsection
 @section('content')
+<div class="col-lg-12">
+    <div class="breadcrumb-main">
+        <h4 class="text-capitalize breadcrumb-title">Quick Access</h4>
+    </div>
+
+</div>
+<div class="overflow-x-auto">
+    <div class="d-flex flex-nowrap">
+        @foreach ($products as $product)
+                <div class="cus-xl-3 col-lg-3 col-md-11 col-12 mb-30 px-10">
+                    <div class="card product product--grid">
+                        <div class="h-100">
+                            <div class="product-item">
+                                <div class="product-item__image">
+                                    <a href="#"><img class="card-img-top img-fluid" src="{{ $product->supplier->image }}"
+                                            alt="{{ $product->name }} image cover"></a>
+                                </div>
+                                <div class="card-body px-20 pb-25 pt-20">
+                                    <div class="product-item__body text-capitalize">
+                                        <a href="product-details.html">
+                                            <h6 class="card-title">{{ $product->name }}</h6>
+                                        </a>
+                                        <div class="d-flex align-items-center mb-10 mt-10 flex-wrap">
+                                            <span class="product-desc-price">Rp
+                                                {{ number_format($product->price, 0, ',', '.') }}</span>
+                                            <span class="product-price">Rp {{ number_format($product->cost, 0, ',', '.') }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-item__button d-flex mt-20 flex-wrap">
+                                        <button class="btn btn-primary btn-default btn-squared border-0" data-toggle="modal"
+                                            data-target="#createTransactionModal" data-product-id="{{ $product->id }}"
+                                            data-product-price="{{ $product->price }}">
+                                            <span data-feather="shopping-bag"></span>Buy Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        @endforeach
+        </div>
+</div>
+
+<div class="col-lg-12">
+    <div class="breadcrumb-main">
+        <h4 class="text-capitalize breadcrumb-title">Sales Performance</h4>
+    </div>
+
+</div>
 <div class="col-xxl-3 col-md-6 col-ssm-12 mb-30">
     <!-- Card 1 -->
     <div class="ap-po-details p-25 radius-xl bg-white d-flex justify-content-between">
@@ -368,4 +481,20 @@ var myChart = new Chart(ctx, {
         });
 
 </script>
+@endsection
+@section('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#createTransactionModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Tombol yang mengaktifkan modal
+                var productId = button.data('product-id'); // Ekstrak informasi dari atribut data-product-id
+                var productPrice = button.data(
+                'product-price'); // Ekstrak informasi dari atribut data-product-id
+                var modal = $(this);
+                modal.find('#product_id').val(productId);
+                modal.find('#price').val(productPrice);
+            });
+        });
+    </script>
+
 @endsection

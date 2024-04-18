@@ -10,7 +10,26 @@ body.swal2-toast-shown .swal2-container{
 .m-top-0 {
   margin-top: 0px;
 }
+/* Styling scrollbar */
+.overflow-x-auto::-webkit-scrollbar {
+    height: 5px;
+}
 
+/* Track (lubang kosong tempat pergerakan thumb) */
+.overflow-x-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Thumb (bagian pergerakan scrollbar) */
+.overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #cdcdcd; /* Warna background thumb */
+    border-radius: 5px; /* BorderRadius untuk membuat thumb terlihat lebih bulat */
+}
+
+/* Ketika thumb di hover */
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: #cdcdcd; /* Warna background thumb saat hover */
+}
 .m-top-5 {
   margin-top: 5px;
 }
