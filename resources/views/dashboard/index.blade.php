@@ -265,8 +265,8 @@ aria-labelledby="createTransactionModalLabel" aria-hidden="true">
                             <tbody>
                                 @foreach ($transactions as $transaction)
                                 <tr>
-                                    <td>{{ $transaction->order_code }}<br><span class="text-muted">{{ $transaction->customer->name }}</span></td>
-                                    <td>{{ $transaction->product->name }}</td>
+                                    <td>{{ $transaction->order_code }}<br><span class="text-muted">{{ $transaction->customer->name ?? $transaction->supplier->name }}</span></td>
+                                    <td>{{ $transaction->product->name ?? 'Pembelian dari Supplier' }}</td>
                                     <td>{{ $transaction->qty }} months</td>
                                     <td>Rp {{ number_format($transaction->price, 0, ',', '.') }}</td>
                                 </tr>
