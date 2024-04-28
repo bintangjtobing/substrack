@@ -22,25 +22,32 @@ class RoomController extends Controller
         $room = Room::findOrFail($roomId);
 
         // Ambil informasi detail tentang room, transaction, dan customer yang terkait dari tabel pivot
-        $roomCustomerTransaction = RoomCustomerTransaction::where('room_id', $roomId)->first();
+        $roomCustomerTransactions = RoomCustomerTransaction::where('room_id', $roomId)->get();
 
-        // Periksa apakah ada roomCustomerTransaction yang terkait dengan ruangan ini
-        if ($roomCustomerTransaction) {
+        // Inisialisasi array untuk menyimpan semua pelanggan yang terkait dengan ruangan
+        $customers = [];
+
+        // Iterasi melalui setiap entri RoomCustomerTransaction dan ambil pelanggan terkait
+        foreach ($roomCustomerTransactions as $roomCustomerTransaction) {
+            // Periksa apakah ada transaksi dan pelanggan yang terkait
             $transaction = $roomCustomerTransaction->transaction;
             $customer = $roomCustomerTransaction->customer;
 
-            // Periksa apakah ada transaksi dan pelanggan yang terkait
             if ($transaction && $customer) {
-                return view('rooms.detail', compact('room', 'transaction', 'customer'));
-            } else {
-                // Tambahkan penanganan jika tidak ada transaksi atau pelanggan yang terkait dengan roomCustomerTransaction
-                return redirect()->back()->with('error', 'No transaction or customer found for this room');
+                // Tambahkan pelanggan ke dalam array
+                $customers[] = $customer;
             }
-        } else {
-            // Tambahkan penanganan jika tidak ada roomCustomerTransaction yang terkait dengan ruangan
-            return redirect()->back()->with('error', 'No RoomCustomerTransaction found for this room');
         }
+
+        // Tampilkan view dengan semua informasi yang diperlukan
+        return view('rooms.detail', compact('room', 'customers','transaction'));
+        // return response()->json(['status'=>201, 'data'=>[
+        //     'room'=>$room,
+        //     'customers'=>$customers,
+        //     'transaction'=>$transaction
+        // ]]);
     }
+
 
 
     public function create()

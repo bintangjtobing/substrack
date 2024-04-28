@@ -4,7 +4,7 @@
 
 @section('addNewData')
     <div class="action-btn">
-        <a href="#" class="btn btn-sm btn-primary btn-add">
+        <a href="/financial-reports/pdf" class="btn btn-sm btn-primary btn-add">
             <i class="la la-download"></i> Print Report</a>
     </div>
 @endsection

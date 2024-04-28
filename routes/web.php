@@ -33,6 +33,7 @@ Route::resource('products', ProductController::class);
 Route::resource('rooms', RoomController::class);
 Route::get('/rooms/{room}', [RoomController::class,'detail'])->name('rooms.detail');
 Route::resource('financial-reports', FinancialReportController::class);
+Route::get('/financial-reports/pdf', [FinancialReportController::class, 'generatePDF']);
 Route::get('/reset-data', function(){
     DB::statement('SET FOREIGN_KEY_CHECKS=0');
     Room::truncate();
@@ -44,4 +45,3 @@ Route::get('/reset-data', function(){
     // Mengembalikan pesan sukses
     return redirect()->back()->with('success', 'Data has been reset successfully.');
 });
-
