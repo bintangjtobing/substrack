@@ -239,7 +239,7 @@
                             <div class="product-item__body text-capitalize">
                                 <a href="product-details.html">
                                     <h6 class="card-title">{{ $product->name }}</h6>
-                                    <span class="text-muted fs-12">{{ Str::limit($product->description,120, '...') }}</span>
+                                    <span class="text-muted fs-12">{{ $product->description }}</span>
                                 </a>
                                 <div class="d-flex align-items-center mb-10 mt-10 flex-wrap">
                                     <span class="product-desc-price">Rp
