@@ -35,17 +35,8 @@ class TransactionController extends Controller
 
             // Menyimpan data transaksi
             if ($product) {
-                // Validasi apakah masih ada available user di room
-                $room = Room::where('available_users', '>', 0)
-                        ->orderBy('available_users', 'asc')
-                        ->first();
-                if (!$room || $room->available_users <= 0) {
-                    // Tambahkan respons untuk kasus room tidak tersedia
-                    return redirect()->back()->with('error', 'Room is not available');
-                }
-
-                // Kurangi jumlah available user di room
-                $room->decrement('available_users');
+                // Tambahkan logika validasi room di sini jika diperlukan
+                // ...
 
                 $transaction = new Transaction([
                     'transaction_date' => $request->transaction_date,
@@ -58,12 +49,6 @@ class TransactionController extends Controller
                 ]);
 
                 $transaction->save();
-                // Setelah transaksi berhasil dibuat, tambahkan entri baru di RoomCustomerTransaction
-                $roomCustomerTransaction = new RoomCustomerTransaction();
-                $roomCustomerTransaction->room_id = $room->id;
-                $roomCustomerTransaction->customer_id = $transaction->customer_id;
-                $roomCustomerTransaction->transaction_id = $transaction->id;
-                $roomCustomerTransaction->save();
 
                 return redirect()->route('transactions.index')->with('success', 'Transaction created successfully');
             } else {
@@ -87,6 +72,7 @@ class TransactionController extends Controller
             return redirect()->route('transactions.index')->with('success', 'Purchase transaction created successfully');
         }
     }
+
 
 
 
